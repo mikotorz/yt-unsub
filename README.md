@@ -1,0 +1,51 @@
+# yt-unsub
+
+A local web app for bulk-managing YouTube subscriptions. Fetches all your subscribed channels, auto-tags them by activity, and lets you bulk-unsubscribe through a browser UI.
+
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+
+## Features
+
+- **Channel table** — thumbnail, name, description, subscriber count, video count, last upload date
+- **Auto-tags** — `dead` (no upload 1yr+), `inactive` (6–12 months), `no-uploads`, `small`, `large`, `hidden-subs`, `no-videos`, `no-description`
+- **Tag filter** — click any tag badge in the header to filter the list to matching channels
+- **Search** — real-time name filter, works together with tag filter
+- **Sortable columns** — click any column header to sort; click again to reverse
+- **Bulk select** — checkboxes per row, or "Select visible" to grab everything matching the current filter
+- **Click to visit** — channel names link directly to the YouTube channel page
+- **Cache** — enriched data is cached for 24 hours so startup is instant on repeat runs; ↻ Refresh button forces a re-fetch
+- **Safe unsubscribe** — confirmation dialog before any action; progress bar during removal
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+pip install google-auth-oauthlib google-api-python-client flask
+```
+
+### 2. Google Cloud credentials (one-time, ~2 minutes)
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com/)
+2. Create or select a project
+3. **APIs & Services → Library** → search `YouTube Data API v3` → Enable
+4. **APIs & Services → Credentials → Create Credentials → OAuth client ID → Desktop app**
+5. Download the JSON file → rename it `client_secret.json` → place it next to `yt_unsub.py`
+6. On the OAuth consent screen, add your Google account as a test user
+
+### 3. Run
+
+```bash
+python yt_unsub.py
+```
+
+The first run opens a browser tab for Google login, then opens `http://localhost:5000` automatically. Subsequent runs load from cache and open immediately.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `yt_unsub.py` | Main script |
+| `client_secret.json` | Your OAuth credentials — **never commit this** |
+| `yt_token.pickle` | Cached auth token — **never commit this** |
+| `yt_cache.json` | Cached subscription data (24 h TTL) |

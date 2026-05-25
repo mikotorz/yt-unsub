@@ -1,0 +1,17 @@
+# venv
+Lib/
+Scripts/
+pyvenv.cfg
+.lock
+CACHEDIR.TAG
+
+# secrets & tokens — never commit these
+client_secret.json
+yt_token.pickle
+
+# cache
+yt_cache.json
+
+# python
+__pycache__/
+*.pyc
